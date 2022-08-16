@@ -45,7 +45,7 @@ class CupOJavaDatabaseHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 2) {
             //Code to add extra DB Column
-            db.execSQL("ALTER TABLE DRINK ADD COLUMN FAVORITE NUMERIC;");
+            db.execSQL("ALTER TABLE DRINK ADD COLUMN FAVOURITE NUMERIC;");
         }
     }
 }
