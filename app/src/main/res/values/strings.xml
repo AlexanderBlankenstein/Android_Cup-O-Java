@@ -2,6 +2,7 @@
     <string name="app_name">Cup-O-Java</string>
     <string name="cupojava_logo">Cup-O-Java logo</string>
     <string name="favourite">Favourite</string>
+    <string name="favourites">Your Favourite Drinks:</string>
 
     <string-array name="options">
         <item>Drinks</item>
