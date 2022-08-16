@@ -4,10 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 class CupOJavaDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "cupojava"; //the nam of the database
+    private static final String DB_NAME = "cupojava"; //the name of the database
     private static final int DB_VERSION = 2; //the version of the database
 
     CupOJavaDatabaseHelper(Context context) {
@@ -23,6 +24,15 @@ class CupOJavaDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         updateMyDatabase(db, oldVersion, newVersion);
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion == 3) {
+            //Dangerous way of downgrading since user will lose all data. But works here
+            db.execSQL("DROP TABLE DRINK;");
+            onCreate(db);
+        }
     }
 
     private static void insertDrink(SQLiteDatabase db, String name, String description, int resourceId) {

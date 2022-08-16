@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
@@ -49,19 +48,19 @@ public class TopLevelActivity extends Activity {
             SQLiteOpenHelper cupojavaDatabaseHelper = new CupOJavaDatabaseHelper(this);
             db = cupojavaDatabaseHelper.getReadableDatabase();
             favouriteCursor = db.query("DRINK",
-                    new String[] {"_id", "NAME"},
+                    new String[]{"_id", "NAME"},
                     "FAVOURITE = 1",
                     null, null, null, null);
 
-            CursorAdapter favoriteAdapter = new SimpleCursorAdapter(TopLevelActivity.this,
+            CursorAdapter favouriteAdapter = new SimpleCursorAdapter(TopLevelActivity.this,
                     android.R.layout.simple_list_item_1,
                     favouriteCursor,
                     new String[] {"NAME"},
                     new int[] {android.R.id.text1}, 0);
 
-            listFavourites.setAdapter(favoriteAdapter);
+            listFavourites.setAdapter(favouriteAdapter);
         } catch (SQLException e) {
-            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_LONG);
             toast.show();
         }
 
