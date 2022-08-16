@@ -52,11 +52,13 @@ public class TopLevelActivity extends Activity {
                     new String[] {"_id", "NAME"},
                     "FAVOURITE = 1",
                     null, null, null, null);
+
             CursorAdapter favoriteAdapter = new SimpleCursorAdapter(TopLevelActivity.this,
                     android.R.layout.simple_list_item_1,
                     favouriteCursor,
                     new String[] {"NAME"},
                     new int[] {android.R.id.text1}, 0);
+
             listFavourites.setAdapter(favoriteAdapter);
         } catch (SQLException e) {
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
@@ -69,6 +71,21 @@ public class TopLevelActivity extends Activity {
             intent.putExtra(DrinkActivity.EXTRA_DRINKID, (int)id);
             startActivity(intent);
         });
+    }
+
+    //Update cursor on activity restart
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Cursor newCursor = db.query("DRINK",
+                new String[] {"_id", "NAME"},
+                "FAVOURITE = 1",
+                null, null, null, null);
+
+        ListView listFavourites = findViewById(R.id.list_favourites);
+        CursorAdapter adapter = (CursorAdapter) listFavourites.getAdapter();
+        adapter.changeCursor(newCursor);
+        favouriteCursor = newCursor;
     }
 
     //CLose the cursor and database
