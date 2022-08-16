@@ -1,6 +1,6 @@
 # Cup-O-Java App for Android
 
-A simple coffee shop app that implemments listviews, 
+A simple coffee shop app that implemments listviews, SQLite database creation and updating, intents between activities, cursors, and asynctasks 
 
 ## Installation
 
