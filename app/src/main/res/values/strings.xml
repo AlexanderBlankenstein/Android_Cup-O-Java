@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Cup-O-Java</string>
+    <string name="cupojava_logo">Cup-O-Java logo</string>
+
+    <string-array name="options">
+        <item>Drinks</item>
+        <item>Food</item>
+        <item>Stores</item>
+    </string-array>
 </resources>
