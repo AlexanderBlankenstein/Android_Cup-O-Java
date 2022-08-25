@@ -28,7 +28,7 @@ public class TopLevelActivity extends Activity {
 
     private void setupOptionsListView() {
         //Create an OnItemClickListener
-        AdapterView.OnItemClickListener itemClickListener = (listView, view, position, id) -> {
+        AdapterView.OnItemClickListener itemClickListener = (listView, itemView, position, id) -> {
             if (position == 0) {
                 Intent intent = new Intent(TopLevelActivity.this, DrinkCategoryActivity.class);
                 startActivity(intent);
