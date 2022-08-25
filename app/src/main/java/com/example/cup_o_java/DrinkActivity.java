@@ -6,12 +6,15 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.loader.content.AsyncTaskLoader;
 
 public class DrinkActivity extends Activity {
 
@@ -73,6 +76,8 @@ public class DrinkActivity extends Activity {
     public void onFavouriteClicked(View view) {
         int drinkId = (Integer) getIntent().getExtras().get(EXTRA_DRINKID);
 
+        //old non-async method.
+        /*
         //Get the value of the checkbox
         CheckBox favourite = (CheckBox) findViewById(R.id.favourite);
         ContentValues drinkValues = new ContentValues();
@@ -90,6 +95,47 @@ public class DrinkActivity extends Activity {
         } catch (SQLException e) {
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
+        }
+        */
+
+        //new async method
+        new UpdateDrinkTask().execute(drinkId);
+    }
+
+    //Inner class to update the drink
+    private class UpdateDrinkTask extends AsyncTask<Integer, Void, Boolean> {
+        private ContentValues drinkValues;
+
+        protected void onPreExecute() {
+            //Get the value of the checkbox
+            CheckBox favourite = (CheckBox) findViewById(R.id.favourite);
+            drinkValues = new ContentValues();
+            drinkValues.put("FAVOURITE", favourite.isChecked());
+        }
+
+        protected Boolean doInBackground(Integer... drinks) {
+            int drinkId = drinks[0];
+
+            //Get a reference to the database and update the FAVOURITE column
+            SQLiteOpenHelper cupojavaDatabaseHelper = new CupOJavaDatabaseHelper(DrinkActivity.this);
+            try {
+                SQLiteDatabase db = cupojavaDatabaseHelper.getWritableDatabase();
+                db.update("DRINK",
+                        drinkValues,
+                        "_id = ?",
+                        new String[] {Integer.toString(drinkId)});
+                db.close();
+                return true;
+            } catch (SQLException e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(DrinkActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
 }
