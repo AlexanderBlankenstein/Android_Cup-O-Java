@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.loader.content.AsyncTaskLoader;
 
 public class DrinkActivity extends Activity {
 
@@ -75,30 +74,6 @@ public class DrinkActivity extends Activity {
     //Update the database when the checkbox is clicked
     public void onFavouriteClicked(View view) {
         int drinkId = (Integer) getIntent().getExtras().get(EXTRA_DRINKID);
-
-        //old non-async method.
-        /*
-        //Get the value of the checkbox
-        CheckBox favourite = (CheckBox) findViewById(R.id.favourite);
-        ContentValues drinkValues = new ContentValues();
-        drinkValues.put("FAVOURITE", favourite.isChecked());
-
-        //Get a reference to the database and update the FAVOURITE column
-        SQLiteOpenHelper cupojavaDatabaseHelper = new CupOJavaDatabaseHelper(this);
-        try {
-            SQLiteDatabase db = cupojavaDatabaseHelper.getWritableDatabase();
-            db.update("DRINK",
-                    drinkValues,
-                    "_id = ?",
-                    new String[] {Integer.toString(drinkId)});
-            db.close();
-        } catch (SQLException e) {
-            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        */
-
-        //new async method
         new UpdateDrinkTask().execute(drinkId);
     }
 
